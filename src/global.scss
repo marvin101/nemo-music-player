@@ -35,3 +35,7 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+ion-content {
+  --background: linear-gradient(135deg, #4f8cff 0%, #a6ffcb 100%);
+}
