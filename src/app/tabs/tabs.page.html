@@ -1,4 +1,5 @@
-<ion-tabs>
+<ion-content fullscreen="true">
+  <ion-tabs>
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="tab1" href="/tabs/tab1">
       <ion-icon aria-hidden="true" name="play-circle" size="large"></ion-icon>
@@ -13,3 +14,26 @@
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
+</ion-content>
+
+
+<ion-footer class="mini-player" *ngIf="isPlaying">
+  <ion-toolbar (click)="openNowPlaying()" class="ion-no-border">
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-align-items-center">
+        <ion-col size="2">
+          <ion-img [src]="currentSong?.cover" style="border-radius: 4px; height: 40px; width: 40px;"></ion-img>
+        </ion-col>
+        <ion-col size="7">
+          <div class="track-title">{{ currentSong?.title }}</div>
+          <div class="track-artist">{{ currentSong?.artist }}</div>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button fill="clear" (click)="togglePlay($event)">
+            <ion-icon slot="icon-only" [name]="isPlaying() ? 'pause' : 'play'"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

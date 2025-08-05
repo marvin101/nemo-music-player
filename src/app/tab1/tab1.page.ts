@@ -10,4 +10,13 @@ export class Tab1Page {
 
   constructor() {}
 
+  onFileSelected(event: any): void {
+    // Handle file selection logic here
+    const file = event.target.files[0];
+    if (file) {
+      // You can process the selected file as needed
+      console.log('Selected file:', file);
+    }
+  }
+
 }

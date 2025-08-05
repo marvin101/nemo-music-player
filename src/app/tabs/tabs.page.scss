@@ -1,1 +1,24 @@
+.mini-player {
+    position: fixed;
+    bottom: 56px; // height of ion-tab-bar
+    left: 0;
+    right: 0;
+    z-index: 100;
 
+    .track-title {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .track-artist {
+        font-size: 12px;
+        color: #666
+    }
+    ion-toolbar {
+        height: 60px;
+        --background: #fff;
+        --background-color: #ccc;
+    }
+    ion-img {
+        object-fit: cover;
+    }
+}
