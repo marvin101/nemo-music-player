@@ -5,13 +5,18 @@ import { parseBlob } from 'music-metadata-browser';
   providedIn: 'root'
 })
 export class MusicService {
-  audio = new Audio();
-  currentSong: {
-    title: string;
-    artist: string;
-    cover: string;
-    fileurl: string;
-  } | null = null;
+  private audio: HTMLAudioElement;
+  private _currentSong: any = null;
+  private playPromise: Promise<void> | null = null;
+
+  constructor() {
+    // Initialize the audio element
+    this.audio = new Audio();
+  }
+
+  get currentSong() {
+    return this._currentSong;
+  }
 
   async loadSong(file: File) {
     const metadata = await parseBlob(file);
@@ -30,7 +35,7 @@ export class MusicService {
 
     const fileurl = URL.createObjectURL(file);
 
-    this.currentSong = {
+    this._currentSong = {
       title,
       artist,
       cover: coverImageUrl,
@@ -39,25 +44,38 @@ export class MusicService {
     this.audio.src = fileurl;
   }
 
-  play() {
-    this.audio.play();
+  async play() {
+    try {
+      // Store the play promise
+      this.playPromise = this.audio.play();
+      await this.playPromise;
+    } catch (error) {
+      console.error('Error playing audio:', error);
+    }
   }
 
-  pause() {
-    this.audio.pause();
+  async pause() {
+    try {
+      // Wait for any pending play promise to resolve before pausing
+      if (this.playPromise) {
+        await this.playPromise;
+      }
+      this.audio.pause();
+    } catch (error) {
+      console.error('Error pausing audio:', error);
+    }
   }
 
-  togglePlayPause() {
+  async togglePlayPause() {
     if (this.audio.paused) {
-      this.play();
+      await this.play();
     } else {
-      this.pause();
+      await this.pause();
     }
   }
 
   isPlaying(): boolean {
-    return !this.audio.paused;
+    // Add null check
+    return this.audio ? !this.audio.paused : false;
   }
-
-  constructor() { }
 }

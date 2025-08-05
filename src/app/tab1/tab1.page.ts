@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MusicService } from '../services/music.service';
 
 @Component({
   selector: 'app-tab1',
@@ -7,16 +8,14 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class Tab1Page {
-
-  constructor() {}
+  constructor(private musicService: MusicService) {}
 
   onFileSelected(event: any): void {
-    // Handle file selection logic here
-    const file = event.target.files[0];
-    if (file) {
-      // You can process the selected file as needed
-      console.log('Selected file:', file);
+    // Safely access the files from the event
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      this.musicService.loadSong(file);
     }
   }
-
 }

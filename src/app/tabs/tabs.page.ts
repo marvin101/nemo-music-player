@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MusicService } from '../services/music.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs',
@@ -8,21 +9,26 @@ import { MusicService } from '../services/music.service';
   standalone: false,
 })
 export class TabsPage {
-  constructor(private music: MusicService) { }
+  constructor(
+    private musicService: MusicService,
+    private router: Router
+  ) {}
 
   togglePlay(event: Event) {
     event.stopPropagation();
-    this.music.togglePlayPause();
+    this.musicService.togglePlayPause();  // Use musicService instead of this.music
   }
 
   openNowPlaying() {
-  // Logic to open the now playing screen
-  window.location.href = '/tabs/now-playing'; // Adjust the path as needed
-}
-get isPlaying() {
-    return this.music.isPlaying;
+    // Use Angular Router instead of window.location
+    this.router.navigate(['/tabs/now-playing']);
   }
+
+  isPlaying(): boolean {
+    return this.musicService.isPlaying();
+  }
+
   get currentSong() {
-    return this.music.currentSong;
+    return this.musicService.currentSong;  // Get currentSong from musicService
   }
 }
